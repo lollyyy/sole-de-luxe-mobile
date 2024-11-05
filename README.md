@@ -1,3 +1,6 @@
+# Sole de Luxe (mobile)
+Aliya Zahira Nadra (2306245863)
+
 <details>
 <Summary><b>Tugas 7</b></Summary>
 
