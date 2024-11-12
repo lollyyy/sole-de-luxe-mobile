@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sole_de_luxe/widgets/left_drawer.dart';
+import 'package:sole_de_luxe/widgets/shoes_card.dart';
 
 class MyHomePage extends StatelessWidget {
   final String npm = '2306245863';
@@ -6,10 +8,10 @@ class MyHomePage extends StatelessWidget {
   final String className = 'PBP B';
 
   final List<ItemHomepage> items = [
-    ItemHomepage("Lihat Item", Icons.mood),
-    ItemHomepage("Tambah Item", Icons.add),
-    ItemHomepage("Logout", Icons.logout),
-  ];
+  ItemHomepage("Lihat Shoes", Icons.shopping_bag, const Color.fromARGB(255, 15, 69, 19)),
+  ItemHomepage("Tambah Item", Icons.add, const Color.fromARGB(255, 81, 35, 3)),
+  ItemHomepage("Logout", Icons.logout, const Color.fromARGB(255, 76, 8, 8)),
+];
 
   MyHomePage({super.key});
 
@@ -25,7 +27,9 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
+      drawer: const LeftDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -60,9 +64,7 @@ class MyHomePage extends StatelessWidget {
                     mainAxisSpacing: 10,
                     crossAxisCount: 3,
                     shrinkWrap: true,
-                    children: items.map((ItemHomepage item) {
-                      return ItemCard(item);
-                    }).toList(),
+                    children: items.map((item) => ItemCard(item: item)).toList(),
                   ),
                 ],
               ),
@@ -96,56 +98,6 @@ class InfoCard extends StatelessWidget {
             const SizedBox(height: 8.0),
             Text(content),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class ItemHomepage {
-  final String name;
-  final IconData icon;
-
-  ItemHomepage(this.name, this.icon);
-}
-
-class ItemCard extends StatelessWidget {
-  final ItemHomepage item;
-
-  const ItemCard(this.item, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Theme.of(context).colorScheme.secondary,
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: () {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-                content: Text("Kamu telah menekan tombol ${item.name}!")));
-        },
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  item.icon,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                const Padding(padding: EdgeInsets.all(3)),
-                Text(
-                  item.name,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );

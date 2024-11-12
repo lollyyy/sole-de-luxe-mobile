@@ -42,3 +42,50 @@ Pada proyek ini, ada 16 widget yang digunakan.
 4. Untuk implementasi Snackbar, saya memanfaatkan fungsi onTap yang ada di ItemCard. Menggunakan ScaffoldMessenger untuk mengelola Snackbar dan menampilkan pesan sesuai tombol yang ditekan ("Kamu telah menekan tombol [nama tombol]").
 
 </details>
+
+<details>
+<Summary><b>Tugas 8</b></Summary>
+
+## 1. Apa kegunaan const di Flutter? Jelaskan apa keuntungan ketika menggunakan const pada kode Flutter. Kapan sebaiknya kita menggunakan const, dan kapan sebaiknya tidak digunakan?
+`const` di Flutter digunakan untuk membuat objek yang nilainya konstan dan tidak akan berubah (immutable) saat compile-time. 
+Keuntungannya ketika menggunakan `const`:
+- Meningkatkan performa aplikasi karena objek dibuat saat compile-time
+- Menghemat memori karena menggunakan instance yang sama
+- Mencegah perubahan tidak disengaja pada nilai
+
+Waktu terbaik untuk menggunakan `const`:
+- Widget statis yang tidak berubah
+- Nilai yang sudah diketahui saat compile-time
+- Collections yang isinya tetap
+
+Sebaiknya tidak digunakan ketika:
+- Data yang berubah saat runtime
+- Widget dengan state
+- Data dari API/database
+- Widget yang bergantung pada context
+
+## 2. Jelaskan dan bandingkan penggunaan Column dan Row pada Flutter. Berikan contoh implementasi dari masing-masing layout widget ini!
+Column digunakan untuk menyusun widget secara vertikal (atas ke bawah), sedangkan Row digunakan untuk menyusun widget secara horizontal (kiri ke kanan).
+Contoh di layout widget:
+- Column digunakan untuk menyusun judul dan form fields di shoesentry_form.dart
+- Row digunakan untuk menyusun card NPM, Name, dan Class secara horizontal di menu.dart
+
+## 3. Sebutkan apa saja elemen input yang kamu gunakan pada halaman form yang kamu buat pada tugas kali ini. Apakah terdapat elemen input Flutter lain yang tidak kamu gunakan pada tugas ini? Jelaskan!
+Pada form Sole de Luxe, saya menggunakan TextFormField untuk semua input:
+- Shoes Name (text)
+- Price (number)
+- Description (text)
+- Color (text)
+- Condition (text)
+- Release Year (number)
+
+Elemen input Flutter lain yg tidak digunakan : `Checkbox`, `RadioButton`, `DropdownButton`, `Slider`, `Switch`, `DatePicker`, `TimePicker`, `FileInput`.
+
+Pada Sole de Luxe saya menggunakan TextFormField karena sesuai dengan kebutuhan input data sepatu yang kebanyakan berupa teks dan angka, serta memiliki fitur validasi bawaan yang mudah diimplementasikan.
+
+## 4. Bagaimana cara kamu mengatur tema (theme) dalam aplikasi Flutter agar aplikasi yang dibuat konsisten? Apakah kamu mengimplementasikan tema pada aplikasi yang kamu buat?
+Saya mengatur tema aplikasi Sole de Luxe di main.dart dengan menggunakan ThemeData dan colorScheme untuk menetapkan warna utama aplikasi. Tema ini diimplementasikan secara konsisten di seluruh aplikasi melalui penggunaan Theme.of(context) untuk AppBar, buttons, dan cards, serta menggunakan warna-warna yang sesuai dengan color palette emerald untuk setiap komponen UI.
+
+## 5. Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?
+Saya menggunakan Navigator.push() dan Navigator.pushReplacement() untuk navigasi antar halaman di aplikasi Sole de Luxe. Implementasinya ada di drawer untuk navigasi ke halaman utama dan form tambah sepatu, serta di card "Tambah Item" yang akan mengarahkan ke halaman form, dengan MaterialPageRoute sebagai routenya.
+</details>
