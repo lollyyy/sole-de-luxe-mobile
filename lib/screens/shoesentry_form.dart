@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:sole_de_luxe/screens/menu.dart';
 import 'package:sole_de_luxe/widgets/left_drawer.dart';
 
 class ShoesEntryFormPage extends StatefulWidget {
@@ -19,6 +24,8 @@ class _ShoesEntryFormPageState extends State<ShoesEntryFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -189,38 +196,37 @@ class _ShoesEntryFormPageState extends State<ShoesEntryFormPage> {
                       backgroundColor: MaterialStateProperty.all(
                           Theme.of(context).colorScheme.primary),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Shoes successfully saved'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Shoes Name: $_shoes'),
-                                    Text('Price: $_price'),
-                                    Text('Description: $_description'),
-                                    Text('Color: $_color'),
-                                    Text('Condition: $_condition'),
-                                    Text('Release Year: $_releaseYear'),
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    _formKey.currentState!.reset();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                          final response = await request.postJson(
+                              "http://127.0.0.1:8000/create-flutter/",
+                              jsonEncode(<String, dynamic>{
+                                  'name': _shoes, // Gunakan _shoes bukan name
+                                  'price': _price, // Gunakan _price bukan price
+                                  'description': _description,
+                                  'color': _color,
+                                  'condition': _condition,
+                                  'release_year': _releaseYear,
+                              }),
+                          );
+
+                          if (context.mounted) {
+                              if (response['status'] == 'success') {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                      content: Text("New shoes successfully saved!"),
+                                  ));
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => MyHomePage()),
+                                  );
+                              } else {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                      content: Text("An error occurred, please try again."),
+                                  ));
+                              }
+                          }
                       }
                     },
                     child: const Text(

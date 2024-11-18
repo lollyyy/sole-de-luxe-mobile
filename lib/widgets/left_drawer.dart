@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sole_de_luxe/screens/list_shoesentry.dart';
 import 'package:sole_de_luxe/screens/menu.dart';
 import 'package:sole_de_luxe/screens/shoesentry_form.dart';
 
@@ -61,6 +62,17 @@ class LeftDrawer extends StatelessWidget {
               );
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.add_reaction_rounded),
+            title: const Text('Daftar Shoes'),
+            onTap: () {
+                // Route menu ke halaman shoes
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ShoesEntryPage()),
+                );
+            },
+        ),
         ],
       ),
     );
