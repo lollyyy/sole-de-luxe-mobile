@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:sole_de_luxe/screens/menu.dart';
+import 'package:sole_de_luxe/screens/list_shoesentry.dart';
+// import 'package:sole_de_luxe/screens/menu.dart';
 import 'package:sole_de_luxe/widgets/left_drawer.dart';
 
 class ShoesEntryFormPage extends StatefulWidget {
@@ -187,6 +188,50 @@ class _ShoesEntryFormPageState extends State<ShoesEntryFormPage> {
                   },
                 ),
               ),
+              // Align(
+              //   alignment: Alignment.bottomCenter,
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(8.0),
+              //     child: ElevatedButton(
+              //       style: ButtonStyle(
+              //         backgroundColor: MaterialStateProperty.all(
+              //             Theme.of(context).colorScheme.primary),
+              //       ),
+              //       onPressed: () async {
+              //         if (_formKey.currentState!.validate()) {
+              //             final response = await request.postJson(
+              //                 "http://127.0.0.1:8000/create-flutter/",
+              //                 jsonEncode(<String, dynamic>{
+              //                     'name': _shoes, // Gunakan _shoes bukan name
+              //                     'price': _price, // Gunakan _price bukan price
+              //                     'description': _description,
+              //                     'color': _color,
+              //                     'condition': _condition,
+              //                     'release_year': _releaseYear,
+              //                 }),
+              //             );
+
+              //             if (context.mounted) {
+              //                if (response['status'] == 'success') {
+              //                 ScaffoldMessenger.of(context)
+              //                     .showSnackBar(const SnackBar(
+              //                     content: Text("New shoes successfully saved!"),
+              //                 ));
+              //                 Navigator.pushReplacement(
+              //                     context,
+              //                     MaterialPageRoute(builder: (context) => const ShoesEntryPage()), // Ubah ke halaman list
+              //                 );
+              //             }
+              //             }
+              //         }
+              //       },
+              //       child: const Text(
+              //         "Save",
+              //         style: TextStyle(color: Colors.white),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
@@ -194,39 +239,71 @@ class _ShoesEntryFormPageState extends State<ShoesEntryFormPage> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
-                          Theme.of(context).colorScheme.primary),
+                        Theme.of(context).colorScheme.primary),
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                          final response = await request.postJson(
-                              "http://127.0.0.1:8000/create-flutter/",
-                              jsonEncode(<String, dynamic>{
-                                  'name': _shoes, // Gunakan _shoes bukan name
-                                  'price': _price, // Gunakan _price bukan price
-                                  'description': _description,
-                                  'color': _color,
-                                  'condition': _condition,
-                                  'release_year': _releaseYear,
-                              }),
-                          );
+                        // Kirim data ke server
+                        final response = await request.postJson(
+                          "http://127.0.0.1:8000/create-flutter/",
+                          jsonEncode(<String, dynamic>{
+                            'name': _shoes,
+                            'price': _price,
+                            'description': _description,
+                            'color': _color,
+                            'condition': _condition,
+                            'release_year': _releaseYear,
+                          }),
+                        );
 
-                          if (context.mounted) {
-                              if (response['status'] == 'success') {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(const SnackBar(
-                                      content: Text("New shoes successfully saved!"),
-                                  ));
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => MyHomePage()),
-                                  );
-                              } else {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(const SnackBar(
-                                      content: Text("An error occurred, please try again."),
-                                  ));
-                              }
+                        if (context.mounted) {
+                          if (response['status'] == 'success') {
+                            // Tampilkan dialog yang berisi data yang berhasil disimpan
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Shoes berhasil disimpan'),
+                                  content: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Name: $_shoes'),
+                                        Text('Price: \$$_price'),
+                                        Text('Description: $_description'),
+                                        Text('Color: $_color'),
+                                        Text('Condition: $_condition'),
+                                        Text('Release Year: $_releaseYear'),
+                                      ],
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text('OK'),
+                                      onPressed: () {
+                                        Navigator.pop(context); // Tutup dialog
+                                        _formKey.currentState!.reset(); // Reset form
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const ShoesEntryPage(),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          } else {
+                            // Jika gagal, tampilkan pesan error
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Failed to save shoes entry!"),
+                              ),
+                            );
                           }
+                        }
                       }
                     },
                     child: const Text(
@@ -235,7 +312,8 @@ class _ShoesEntryFormPageState extends State<ShoesEntryFormPage> {
                     ),
                   ),
                 ),
-              ),
+              )
+
             ],
           ),
         ),

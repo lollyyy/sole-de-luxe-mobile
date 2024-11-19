@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:sole_de_luxe/models/shoes_entry.dart';
+import 'package:sole_de_luxe/screens/shoes_detailpage.dart';
 import 'package:sole_de_luxe/widgets/left_drawer.dart';
 
 class ShoesEntryPage extends StatefulWidget {
@@ -64,91 +65,103 @@ class _ShoesEntryPageState extends State<ShoesEntryPage> {
                                 ),
                             );
                         } else {
-                            return ListView.builder(
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (_, index) => Card(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 12
-                                    ),
-                                    elevation: 4,
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                                Text(
-                                                    "${snapshot.data![index].fields.name}",
-                                                    style: const TextStyle(
-                                                        fontSize: 24.0,
-                                                        fontWeight: FontWeight.bold,
-                                                    ),
-                                                ),
-                                                const SizedBox(height: 10),
-                                                Row(
-                                                    children: [
-                                                        Container(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 8,
-                                                                vertical: 4,
-                                                            ),
-                                                            decoration: BoxDecoration(
-                                                                color: const Color.fromARGB(255, 2, 50, 34),
-                                                                borderRadius: BorderRadius.circular(8),
-                                                            ),
-                                                            child: Text(
-                                                                "\$${snapshot.data![index].fields.price}",
-                                                                style: const TextStyle(
-                                                                    color: Colors.white,
-                                                                    fontWeight: FontWeight.bold,
-                                                                ),
-                                                            ),
-                                                        ),
-                                                        const SizedBox(width: 10),
-                                                        Container(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 8,
-                                                                vertical: 4,
-                                                            ),
-                                                            decoration: BoxDecoration(
-                                                                color: Colors.grey[200],
-                                                                borderRadius: BorderRadius.circular(8),
-                                                            ),
-                                                            child: Text(
-                                                                snapshot.data![index].fields.color,
-                                                                style: const TextStyle(
-                                                                    fontWeight: FontWeight.bold,
-                                                                ),
-                                                            ),
-                                                        ),
-                                                    ],
-                                                ),
-                                                const SizedBox(height: 10),
-                                                Text(
-                                                    "Condition: ${snapshot.data![index].fields.condition}",
-                                                    style: const TextStyle(
-                                                        fontSize: 16,
-                                                    ),
-                                                ),
-                                                Text(
-                                                    "Release Year: ${snapshot.data![index].fields.releaseYear}",
-                                                    style: const TextStyle(
-                                                        fontSize: 16,
-                                                    ),
-                                                ),
-                                                const SizedBox(height: 10),
-                                                Text(
-                                                    "Description: ${snapshot.data![index].fields.description}",
-                                                    style: const TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.grey,
-                                                    ),
-                                                ),
-                                            ],
-                                        ),
-                                    ),
-                                ),
-                            );
+                        return ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (_, index) => InkWell( 
+                              onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ShoesDetailPage(
+                                              shoes: snapshot.data![index],
+                                          ),
+                                      ),
+                                  );
+                              },
+                              child: Card( // Card menjadi child dari InkWell
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 12
+                                  ),
+                                  elevation: 4,
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                              Text(
+                                                  "${snapshot.data![index].fields.name}",
+                                                  style: const TextStyle(
+                                                      fontSize: 24.0,
+                                                      fontWeight: FontWeight.bold,
+                                                  ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Row(
+                                                  children: [
+                                                      Container(
+                                                          padding: const EdgeInsets.symmetric(
+                                                              horizontal: 8,
+                                                              vertical: 4,
+                                                          ),
+                                                          decoration: BoxDecoration(
+                                                              color: const Color.fromARGB(255, 2, 50, 34),
+                                                              borderRadius: BorderRadius.circular(8),
+                                                          ),
+                                                          child: Text(
+                                                              "\$${snapshot.data![index].fields.price}",
+                                                              style: const TextStyle(
+                                                                  color: Colors.white,
+                                                                  fontWeight: FontWeight.bold,
+                                                              ),
+                                                          ),
+                                                      ),
+                                                      const SizedBox(width: 10),
+                                                      Container(
+                                                          padding: const EdgeInsets.symmetric(
+                                                              horizontal: 8,
+                                                              vertical: 4,
+                                                          ),
+                                                          decoration: BoxDecoration(
+                                                              color: Colors.grey[200],
+                                                              borderRadius: BorderRadius.circular(8),
+                                                          ),
+                                                          child: Text(
+                                                              snapshot.data![index].fields.color,
+                                                              style: const TextStyle(
+                                                                  fontWeight: FontWeight.bold,
+                                                              ),
+                                                          ),
+                                                      ),
+                                                  ],
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                  "Condition: ${snapshot.data![index].fields.condition}",
+                                                  style: const TextStyle(
+                                                      fontSize: 16,
+                                                  ),
+                                              ),
+                                              Text(
+                                                  "Release Year: ${snapshot.data![index].fields.releaseYear}",
+                                                  style: const TextStyle(
+                                                      fontSize: 16,
+                                                  ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                  "Description: ${snapshot.data![index].fields.description}",
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.grey,
+                                                  ),
+                                              ),
+                                          ],
+                                      ),
+                                  ),
+                              ),
+                          ),
+                      );
                         }
                     }
                 },
