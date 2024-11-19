@@ -89,3 +89,42 @@ Saya mengatur tema aplikasi Sole de Luxe di main.dart dengan menggunakan ThemeDa
 ## 5. Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?
 Saya menggunakan Navigator.push() dan Navigator.pushReplacement() untuk navigasi antar halaman di aplikasi Sole de Luxe. Implementasinya ada di drawer untuk navigasi ke halaman utama dan form tambah sepatu, serta di card "Tambah Item" yang akan mengarahkan ke halaman form, dengan MaterialPageRoute sebagai routenya.
 </details>
+
+<details>
+<Summary><b>Tugas 9</b></Summary>
+
+## 1. Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?
+- Model sangat diperlukan dalam pengambilan dan pengiriman data JSON karena model berfungsi sebagai blueprint atau struktur data yang menentukan bagaimana data akan disimpan dan diambil dari database. 
+- Model juga berperan penting dalam proses serialisasi (mengubah objek Python menjadi JSON) dan deserialisasi (mengubah JSON menjadi objek Python), serta memberikan validasi data untuk memastikan integritas data terjaga. 
+
+## 2. Jelaskan fungsi dari library http yang sudah kamu implementasikan pada tugas ini
+Library http menyediakan berbagai metode HTTP seperti GET, POST, PUT, dan DELETE untuk melakukan pertukaran data antara frontend (Flutter) dan backend (Django). Di dalam aplikasi ini, library http digunakan untuk mengirim permintaan ke server Django untuk mengambil data shoes entry (GET), menambahkan shoes entry baru (POST), serta melakukan operasi CRUD lainnya. Library ini juga menangani konversi data antara format JSON dan objek Dart, serta mengelola response dan error handling dari server. Dengan adanya library http, aplikasi Flutter dapat berkomunikasi secara efektif dengan backend Django melalui RESTful API.
+
+## 3. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+CookieRequest berfungsi untuk mengelola state autentikasi dan session pengguna di seluruh aplikasi Flutter. Instance CookieRequest perlu dibagikan ke semua komponen karena hal ini memastikan konsistensi data autentikasi di seluruh aplikasi, seperti menyimpan informasi login, mengelola cookies, dan melakukan request terautentikasi ke server Django.
+
+Dengan membagikan instance CookieRequest menggunakan Provider, setiap widget dalam aplikasi dapat mengakses informasi autentikasi yang sama tanpa perlu membuat instance baru atau melakukan autentikasi ulang. Hal ini juga memudahkan pengelolaan state global aplikasi, di mana setiap komponen dapat mengakses dan memodifikasi data autentikasi secara konsisten, serta memastikan bahwa semua request ke server membawa informasi autentikasi yang valid.
+
+## 4. Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+Mekanisme pengiriman data dari input hingga ditampilkan di Flutter melibatkan beberapa tahap. Pertama, data diinput melalui form di Flutter menggunakan widget seperti TextFormField. Setelah user mengisi form dan menekan tombol submit, data dari form dikumpulkan dan dikonversi menjadi format JSON.
+
+Data JSON tersebut kemudian dikirim ke server Django menggunakan HTTP POST request melalui CookieRequest. Server Django menerima data, memvalidasi, dan menyimpannya ke database. Untuk menampilkan data, Flutter melakukan HTTP GET request ke endpoint JSON Django, yang mengembalikan data dalam format JSON. Data JSON ini kemudian di-decode dan dikonversi menjadi objek Dart menggunakan model yang telah dibuat.
+
+Terakhir, data yang telah dikonversi ditampilkan di Flutter menggunakan widget-widget seperti ListView.builder atau Card. Proses ini memungkinkan data yang diinput dapat disimpan ke database dan ditampilkan kembali di aplikasi Flutter.
+
+## 5. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+Proses autentikasi dimulai dari registrasi di mana user mengisi form register di Flutter. Data registrasi dikirim ke Django melalui HTTP POST request. Django memproses data, membuat user baru, dan menyimpan ke database. Setelah registrasi berhasil, user diarahkan ke halaman login.
+
+Pada proses login, user memasukkan username dan password di form login Flutter. Data ini dikirim ke Django untuk diverifikasi. Jika kredensial valid, Django membuat session dan mengirim cookie session ke Flutter. CookieRequest menyimpan cookie ini untuk digunakan dalam request-request selanjutnya. Setelah login berhasil, Flutter menampilkan menu utama dan menyimpan state login.
+
+Untuk logout, ketika user menekan tombol logout, Flutter mengirim request ke Django untuk menghapus session. Django menghapus session dan cookie, kemudian Flutter menghapus state login dan mengarahkan user kembali ke halaman login.
+
+## 6. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+- Pada tugas ini saya membuat aplikasi django baru bernama authentication. Selanjutnya, saya menambahkan views register, login, dan logout dan menambahkan routing authentication pada urls. 
+- untuk mengimplementasikan login dan register di app ini saya membuat file baru bernama register.dart dan login.dart pada folder screens dan mengubah widget awal yang ditampilkan oleh Flutter pada main.dart
+- Lalu untuk membuat model kustom, saya mengakses JSON pada django project saya dan membuat model baru. 
+- Untuk menampilkan list shoes, saya membuat  list_shoesentry.dart pada folder screens yang fungsinya untuk menampilkan nama, harga, dan description dari shoes.
+- Lalu, saya membuat page untuk shoes detail yang bernama shoes_detailpage.dart yang fungsinya untuk menampilkan seluruh attribut dari shoes. Page ini dapat diakses dari list shoes dan akan terbuka ketika dipencet.
+- Selanjutnya saya memfilter list shoes dengan modifikasi fungsi show_json di Django dengan menambahkan filter user=request.user untuk memastikan hanya data milik user yang login yang diambil.
+
+</details>

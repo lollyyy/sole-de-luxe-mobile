@@ -207,40 +207,6 @@ class ShoesDetailPage extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // Additional Details
-              const SizedBox(height: 16),
-              Card(
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Additional Details',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'User ID: ${shoes.fields.user}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        'Product ID: ${shoes.pk}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ],
           ),
         ),
